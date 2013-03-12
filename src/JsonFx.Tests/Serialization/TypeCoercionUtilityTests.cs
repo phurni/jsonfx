@@ -61,7 +61,7 @@ namespace JsonFx.Serialization
 			input.Four = 4;
 
 			var settings = new DataReaderSettings();
-			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes).CoerceType(typeof(IDictionary<string, object>), input);
+			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes, null).CoerceType(typeof(IDictionary<string, object>), input);
 
 			Assert.Equal(input, actual);
 		}
@@ -87,7 +87,7 @@ namespace JsonFx.Serialization
 				};
 
 			var settings = new DataReaderSettings();
-			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes).CoerceType(expected.GetType(), input);
+			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes, null).CoerceType(expected.GetType(), input);
 
 			Assert.Equal(expected, actual);
 		}
@@ -113,7 +113,7 @@ namespace JsonFx.Serialization
 				};
 
 			var settings = new DataReaderSettings();
-			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes).CoerceType(expected.GetType(), input);
+			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes, null).CoerceType(expected.GetType(), input);
 
 			Assert.Equal(expected, actual);
 		}
@@ -139,7 +139,7 @@ namespace JsonFx.Serialization
 				};
 
 			var settings = new DataReaderSettings();
-			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes).CoerceType(expected.GetType(), input);
+			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes, null).CoerceType(expected.GetType(), input);
 
 			Assert.Equal(expected, actual);
 		}
@@ -163,7 +163,7 @@ namespace JsonFx.Serialization
 				};
 
 			var settings = new DataReaderSettings();
-			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes).CoerceType(typeof(Dictionary<string, object>), input);
+			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes, null).CoerceType(typeof(Dictionary<string, object>), input);
 
 			Assert.Equal(expected, actual);
 		}
@@ -187,7 +187,7 @@ namespace JsonFx.Serialization
 			expected.Four = 4;
 
 			var settings = new DataReaderSettings();
-			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes).CoerceType(expected.GetType(), input);
+			var actual = new TypeCoercionUtility(settings, settings.AllowNullValueTypes, null).CoerceType(expected.GetType(), input);
 
 			Assert.Equal(expected, actual);
 		}

@@ -77,6 +77,7 @@ namespace JsonFx.Serialization
 
 		private readonly bool AllowNullValueTypes;
 		private readonly ResolverCache ResolverCache;
+		private readonly INameResolverStrategy UntypedResolverStrategy;
 
 		#endregion Fields
 
@@ -87,8 +88,8 @@ namespace JsonFx.Serialization
 		/// </summary>
 		/// <param name="cacheContainer"></param>
 		/// <param name="allowNullValueTypes"></param>
-		public TypeCoercionUtility(IResolverCacheContainer cacheContainer, bool allowNullValueTypes)
-			: this(cacheContainer.ResolverCache, allowNullValueTypes)
+		public TypeCoercionUtility(IResolverCacheContainer cacheContainer, bool allowNullValueTypes, INameResolverStrategy untypedResolverStrategy)
+			: this(cacheContainer.ResolverCache, allowNullValueTypes, untypedResolverStrategy)
 		{
 		}
 
@@ -97,7 +98,7 @@ namespace JsonFx.Serialization
 		/// </summary>
 		/// <param name="resolverCache"></param>
 		/// <param name="allowNullValueTypes"></param>
-		public TypeCoercionUtility(ResolverCache resolverCache, bool allowNullValueTypes)
+		public TypeCoercionUtility(ResolverCache resolverCache, bool allowNullValueTypes, INameResolverStrategy untypedResolverStrategy)
 		{
 			if (resolverCache == null)
 			{
@@ -105,6 +106,7 @@ namespace JsonFx.Serialization
 			}
 			this.ResolverCache = resolverCache;
 			this.AllowNullValueTypes = allowNullValueTypes;
+			this.UntypedResolverStrategy = untypedResolverStrategy;
 		}
 
 		#endregion Init
@@ -238,18 +240,21 @@ namespace JsonFx.Serialization
 
 			if (target is IDictionary<string, object>)
 			{
+				var targetName = UntypedResolverStrategy == null ? memberName : UntypedResolverStrategy.GetName(memberName);
 				// needed for ExpandoObject which unfortunately does not implement IDictionary
-				((IDictionary<string, object>)target)[memberName] = memberValue;
+				((IDictionary<string, object>)target)[targetName] = memberValue;
 			}
 			else if (target is IDictionary)
 			{
-				((IDictionary)target)[memberName] = memberValue;
+				var targetName = UntypedResolverStrategy == null ? memberName : UntypedResolverStrategy.GetName(memberName);
+				((IDictionary)target)[targetName] = memberValue;
 			}
 #if NET40 && !WINDOWS_PHONE
 			else if (target is System.Dynamic.DynamicObject)
 			{
+				var targetName = UntypedResolverStrategy == null ? memberName : UntypedResolverStrategy.GetName(memberName);
 				// TODO: expand to all IDynamicMetaObjectProvider?
-				((System.Dynamic.DynamicObject)target).TrySetMember(new DynamicSetter(memberName), memberValue);
+				((System.Dynamic.DynamicObject)target).TrySetMember(new DynamicSetter(targetName), memberValue);
 			}
 #endif
 			else if (targetType != null

@@ -98,7 +98,7 @@ namespace JsonFx.Model
 			}
 			this.Filters = filters;
 
-			this.Coercion = new TypeCoercionUtility(settings, settings.AllowNullValueTypes);
+			this.Coercion = new TypeCoercionUtility(settings, settings.AllowNullValueTypes, settings.UntypedResolverStrategy);
 		}
 
 		#endregion Init

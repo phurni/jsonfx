@@ -160,6 +160,7 @@
     <Compile Include="Serialization\ITextFormattable`1.cs" />
     <Compile Include="Serialization\Providers\DataProviderUtility.cs" />
     <Compile Include="Serialization\Resolvers\ConventionResolverStrategy.cs" />
+    <Compile Include="Serialization\Resolvers\INameResolverStrategy.cs" />
     <Compile Include="Serialization\TransformTokenizer`2.cs" />
     <Compile Include="Serialization\TransformFormatter`2.cs" />
     <Compile Include="Serialization\DataName.cs" />

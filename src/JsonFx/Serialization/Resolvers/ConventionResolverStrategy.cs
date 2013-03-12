@@ -43,7 +43,7 @@ namespace JsonFx.Serialization.Resolvers
 	/// http://msdn.microsoft.com/en-us/library/141e06ef.aspx
 	/// http://msdn.microsoft.com/en-us/library/xzf533w0.aspx
 	/// </remarks>
-	public class ConventionResolverStrategy : PocoResolverStrategy
+	public class ConventionResolverStrategy : PocoResolverStrategy, INameResolverStrategy
 	{
 		#region Enums
 
@@ -96,9 +96,9 @@ namespace JsonFx.Serialization.Resolvers
 		/// </summary>
 		/// <param name="member"></param>
 		/// <returns></returns>
-		public override IEnumerable<DataName> GetName(MemberInfo member)
+		public string GetName(string name)
 		{
-			string[] words = this.SplitWords(member.Name);
+			string[] words = this.SplitWords(name);
 
 			if (this.Casing != WordCasing.NoChange)
 			{
@@ -178,7 +178,17 @@ namespace JsonFx.Serialization.Resolvers
 				}
 			}
 
-			yield return new DataName(String.Join(this.WordSeparator, words));
+			return String.Join(this.WordSeparator, words);
+		}
+
+		/// <summary>
+		/// Gets the serialized name for the member.
+		/// </summary>
+		/// <param name="member"></param>
+		/// <returns></returns>
+		public override IEnumerable<DataName> GetName(MemberInfo member)
+		{
+			yield return new DataName(GetName(member.Name));
 		}
 
 		#endregion Name Resolution Methods

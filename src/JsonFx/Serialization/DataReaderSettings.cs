@@ -48,6 +48,7 @@ namespace JsonFx.Serialization
 
 		private bool allowNullValueTypes = true;
 		private bool allowTrailingContent = true;
+		private INameResolverStrategy untypedResolverStrategy;
 		private readonly ResolverCache ResolverCache;
 		private readonly IEnumerable<IDataFilter<ModelTokenType>> ModelFilters;
 
@@ -145,6 +146,16 @@ namespace JsonFx.Serialization
 		{
 			get { return this.allowTrailingContent; }
 			set { this.allowTrailingContent = value; }
+		}
+
+		/// <summary>
+		/// Gets and sets the name translation strategy when deserializing to an untyped object
+		/// like dynamic object or simple Dictionary
+		/// </summary>
+		public INameResolverStrategy UntypedResolverStrategy
+		{
+			get { return this.untypedResolverStrategy; }
+			set { this.untypedResolverStrategy = value; }
 		}
 
 		/// <summary>
